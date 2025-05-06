@@ -7,13 +7,14 @@ import CreateProjectModal from '@/components/projects/CreateProjectModal'
 import ProjectsWidget from '@/components/projects/ProjectsWidget'
 import { useState, useEffect } from 'react'
 import { TemplatePickerModal } from '@/components/templates/TemplatePickerModal'
-import { useRouter, redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import ProjectCard from '@/components/dashboard/ProjectCard'
 import ScoutPanel from '@/components/scout/ScoutPanel'
 import type { User } from '@supabase/supabase-js'
 import { motion } from 'framer-motion'
+import Link from 'next/link'
 
 export default function DashboardPage() {
   const supabase = createClient()
@@ -27,19 +28,17 @@ export default function DashboardPage() {
   const router = useRouter()
   const [refreshTrigger, setRefreshTrigger] = useState(0)
 
-useEffect(() => {
-  const fetchUserData = async () => {
-    const supabase = await createClient()
-    const {
-      data: { user },
-    } = await supabase.auth.getUser()
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
 
-    if (!user) {
-      router.push('/sign-in')
-      return
-    }
+      if (!user) {
+        router.push('/sign-in')
+        return
+      }
 
-    if (user) {
       setUser(user)
 
       const [{ data: userProjects }, { data: userTasks }, { data: userNotes }] = await Promise.all([
@@ -52,9 +51,8 @@ useEffect(() => {
       setTasks(userTasks || [])
       setNotes(userNotes || [])
     }
-  }
-  fetchUserData()
-}, [supabase])
+    fetchUserData()
+  }, [])
 
   const tasksDueToday = tasks.filter((task) => {
     const today = new Date().toISOString().split('T')[0]
@@ -64,6 +62,10 @@ useEffect(() => {
   const tasksInProgress = tasks.filter((task) => task.status === 'in_progress')
 
   const latestNote = notes.length > 0 ? notes.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime())[0] : null
+
+  const topProjects = [...projects]
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 3)
 
   return (
     <div className="flex flex-col space-y-6 p-6">
@@ -81,54 +83,93 @@ useEffect(() => {
       {/* Project Cards */}
       <section>
         <Card>
-          <CardHeader>
-            <CardTitle>Your Projects</CardTitle>
+          <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+            <div className="flex-1">
+              <CardTitle className="text-xl">Your Projects</CardTitle>
+            </div>
+            <div className="flex items-center gap-2">
+              <CreateProjectModal>
+              </CreateProjectModal>
+            </div>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4 px-2 pb-2">
+            {topProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
+              >
+                <ProjectCard
+                  project={{ ...project, thumbnailSize: 'xs', compact: true }}
+                  showPreview
+                  onClick={() => router.push(`/dashboard/projects/${project.id}`)}
+                />
+              </motion.div>
             ))}
+            {projects.length > 3 && (
+              <motion.div
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="col-span-full text-right text-sm pt-1"
+              >
+                <Link href="/projects" className="text-muted-foreground hover:text-foreground underline">
+                  Show All ({projects.length})
+                </Link>
+              </motion.div>
+            )}
           </CardContent>
         </Card>
       </section>
 
       {/* Tasks / Notes Preview - Fixed View for MVP */}
       <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-        <Card className="col-span-1">
-          <CardHeader><CardTitle>Tasks</CardTitle></CardHeader>
-          <CardContent>
-            <p>{tasksDueToday.length} Due Today • {tasksInProgress.length} In Progress</p>
-          </CardContent>
-        </Card>
-
-        <Card className="col-span-1">
-          <CardHeader><CardTitle>Notes</CardTitle></CardHeader>
-          <CardContent>
-            {latestNote ? (
-              <p>“{latestNote.title}” - updated {new Date(latestNote.updated_at).toLocaleTimeString()}</p>
-            ) : (
-              <p>No recent notes</p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card className="col-span-1">
-          <CardHeader><CardTitle>Upcoming</CardTitle></CardHeader>
-          <CardContent>
-            <p>Your next roadmap item is: Connect GitHub Repo</p>
-          </CardContent>
-        </Card>
-
-        <Card className="col-span-1">
-          <CardHeader><CardTitle>Scout Tips</CardTitle></CardHeader>
-          <CardContent>
-            <p>Use the Scout panel to get help writing, deploying, or organizing tasks.</p>
-          </CardContent>
-        </Card>
+        {[
+          {
+            title: 'Tasks',
+            content: `${tasksDueToday.length} Due Today • ${tasksInProgress.length} In Progress`
+          },
+          {
+            title: 'Notes',
+            content: latestNote ? `“${latestNote.title}” - updated ${new Date(latestNote.updated_at).toLocaleTimeString()}` : 'No recent notes'
+          },
+          {
+            title: 'Upcoming',
+            content: 'Your next roadmap item is: Connect GitHub Repo'
+          },
+          {
+            title: 'Scout Tips',
+            content: 'Use the Scout panel to get help writing, deploying, or organizing tasks.'
+          }
+        ].map((card, index) => (
+          <motion.div
+            key={card.title}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+          >
+            <Card className="col-span-1">
+              <CardHeader><CardTitle>{card.title}</CardTitle></CardHeader>
+              <CardContent>
+                <p>{card.content}</p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
       </section>
 
       {/* Scout Panel */}
-      {showScout && <ScoutPanel onClose={() => setShowScout(false)} />}
+      {showScout && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ duration: 0.3 }}
+        >
+          <ScoutPanel onClose={() => setShowScout(false)} />
+        </motion.div>
+      )}
     </div>
   )
 }

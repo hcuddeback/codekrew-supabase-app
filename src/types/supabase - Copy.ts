@@ -554,6 +554,42 @@ export type Database = {
         }
         Relationships: []
       }
+      templates: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string
+          name: string
+          preview_image_url: string | null
+          slug: string
+          template_type: string | null
+          version: string | null
+          zip_url: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name: string
+          preview_image_url?: string | null
+          slug: string
+          template_type?: string | null
+          version?: string | null
+          zip_url: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          name?: string
+          preview_image_url?: string | null
+          slug?: string
+          template_type?: string | null
+          version?: string | null
+          zip_url?: string
+        }
+        Relationships: []
+      }
       subscriptions: {
         Row: {
           billing_anchor: number | null
@@ -648,31 +684,25 @@ export type Database = {
           assigned_to: string | null
           created_at: string | null
           description: string | null
-          due_date: string | null
           id: string
           status: string | null
           title: string
-          user_id: string | null
         }
         Insert: {
           assigned_to?: string | null
           created_at?: string | null
           description?: string | null
-          due_date?: string | null
           id?: string
           status?: string | null
           title: string
-          user_id?: string | null
         }
         Update: {
           assigned_to?: string | null
           created_at?: string | null
           description?: string | null
-          due_date?: string | null
           id?: string
           status?: string | null
           title?: string
-          user_id?: string | null
         }
         Relationships: [
           {
@@ -702,42 +732,6 @@ export type Database = {
           id?: string
           name?: string
           owner_id?: string | null
-        }
-        Relationships: []
-      }
-      templates: {
-        Row: {
-          created_at: string | null
-          description: string | null
-          id: string
-          name: string
-          preview_image_url: string | null
-          slug: string
-          template_type: string | null
-          version: string | null
-          zip_url: string
-        }
-        Insert: {
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          name: string
-          preview_image_url?: string | null
-          slug: string
-          template_type?: string | null
-          version?: string | null
-          zip_url: string
-        }
-        Update: {
-          created_at?: string | null
-          description?: string | null
-          id?: string
-          name?: string
-          preview_image_url?: string | null
-          slug?: string
-          template_type?: string | null
-          version?: string | null
-          zip_url?: string
         }
         Relationships: []
       }
