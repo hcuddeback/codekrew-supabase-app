@@ -5,7 +5,7 @@ import { getNotes } from '@/app/actions/notes/getNotes'
 import { createNote } from '@/app/actions/notes/createNote'
 import { updateNote } from '@/app/actions/notes/updateNote'
 import { deleteNote } from '@/app/actions/notes/deleteNote'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/lib/hooks/useSession'
 import { Button } from '@/components/ui/button'
 
 interface Note {

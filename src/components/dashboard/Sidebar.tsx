@@ -3,7 +3,7 @@
 import { Home, LayoutDashboard, Calendar, ListTodo, Menu, Table, Database, Bot, Cpu, FileText, BarChart, Settings, Lock, List, Grid, ChevronDown, BookOpenIcon, UsersIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
-import { useUserRole } from '@/hooks/useUserRole'
+import { useUserRole } from '@/lib/hooks/useUserRole'
 import { usePathname } from 'next/navigation'
 
 const menuItems = [

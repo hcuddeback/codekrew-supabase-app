@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getTodos } from '@/app/actions/todos/actions'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/lib/hooks/useSession'
 
 export default function TodoWidget() {
   const session = useSession()

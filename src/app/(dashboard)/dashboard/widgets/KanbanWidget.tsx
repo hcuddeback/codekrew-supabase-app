@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { getKanbanBoard } from '@/app/actions/kanban/getKanbanBoard'
-import { useSession } from '@/hooks/useSession'
+import { useSession } from '@/lib/hooks/useSession'
 
 export default function KanbanWidget() {
   const session = useSession()

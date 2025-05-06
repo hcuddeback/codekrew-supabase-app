@@ -2,7 +2,12 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
-import AnimatedBackground from '@/components/ui/animated-background'
+import dynamic from 'next/dynamic'
+
+const AnimatedBackground = dynamic(
+  () => import('@/components/ui/animated-background'),
+  { ssr: false }
+)
 
 export default function LandingPage() {
   const [email, setEmail] = useState('')
@@ -21,6 +26,7 @@ export default function LandingPage() {
   return (
     <main className="flex-1 relative text-white overflow-hidden">
       <AnimatedBackground />
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4 text-center">
       <section className="flex flex-col items-center justify-center min-h-screen px-4 text-center">
         <Image src="/smiling-robot-codekrew-ai-white.png" alt="CodeKrew AI Logo" width={250} height={250} className="mb-6" />
         <h1 className="text-4xl font-bold">Built for builders. Backed by AI.</h1>
@@ -38,7 +44,7 @@ export default function LandingPage() {
         <div className="mt-16 text-xl font-semibold">Build fast. Think smart. Ship with superpowers.</div>
 
         {/* Signup Form */}
-        <div id="signup" className="mt-16 w-full max-w-md">
+        <div id="signup" className="mt-16 w-full max-w-md py-6">
           <form onSubmit={handleSubmit} className="bg-slate-900 p-6 rounded shadow">
             <h2 className="text-lg font-semibold mb-4">Join the Waitlist</h2>
             <input
@@ -61,6 +67,7 @@ export default function LandingPage() {
           </form>
         </div>
       </section>
+      </div>
     </main>
   )
 }

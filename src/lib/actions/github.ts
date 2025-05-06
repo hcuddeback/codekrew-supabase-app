@@ -28,7 +28,6 @@ export async function getUserGitHubToken() {
     return data.access_token;
 }
 
-// src/lib/actions/github.ts
 export async function createGitHubRepo(accessToken: string, repoName: string) {
     const res = await fetch('/api/github/create-repo', {
       method: 'POST',
@@ -38,8 +37,7 @@ export async function createGitHubRepo(accessToken: string, repoName: string) {
   
     const result = await res.json()
     return result
-  }
-
+}
   
 export async function createAndPushRepo({
     token,
@@ -111,3 +109,38 @@ export async function createAndPushRepo({
         repoUrl: repo.html_url,
     };
 }
+
+export async function pushFiles(
+    accessToken: string,
+    repoName: string,
+    files: Array<{ path: string; content: string }>
+  ) {
+    const ownerRes = await fetch('https://api.github.com/user', {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    })
+    const owner = await ownerRes.json()
+  
+    for (const file of files) {
+      const res = await fetch(
+        `https://api.github.com/repos/${owner.login}/${repoName}/contents/${file.path}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message: `Add ${file.path}`,
+            content: btoa(file.content),
+          }),
+        }
+      )
+  
+      if (!res.ok) {
+        console.error(`Error pushing ${file.path}`, await res.json())
+      }
+    }
+  
+    return true
+  }
+  

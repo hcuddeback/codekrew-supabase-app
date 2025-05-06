@@ -10,7 +10,7 @@ export default function Footer() {
   }, [])
 
   return (
-    <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-4 py-8">
+    <footer className="relative z-50 w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-4 py-4">
       <p>
         © {year ?? ''} CodeKrew. Powered by{' '}
         <a

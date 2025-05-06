@@ -1,23 +1,37 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { createGitHubRepo } from '@/lib/actions/github'
+import { createGitHubRepo, pushFiles } from '@/lib/actions/github'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
 
 export default function CreateRepoModal({
   accessToken,
-  open,
+  isOpen,
   onClose,
+  projectName,
+  templateFiles,
 }: {
   accessToken: string
-  open: boolean
+  isOpen: boolean
   onClose: () => void
+  projectName: string            
+  templateFiles: Array<{ path: string; content: string }>  
 }) {
   const [repoName, setRepoName] = useState('')
+  const [isPrivate, setIsPrivate] = useState(false)
   const [loading, setLoading] = useState(false)
   const [repoUrl, setRepoUrl] = useState('')
+
+  useEffect(() => {
+    if (projectName) {
+      const slug = projectName.toLowerCase().replace(/\s+/g, '-')
+      setRepoName(slug)
+    }
+  }, [projectName])
 
   const handleCreate = async () => {
     setLoading(true)
@@ -31,7 +45,7 @@ export default function CreateRepoModal({
   }
 
   return (
-    <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>Create a GitHub Repo</DialogTitle>
@@ -43,12 +57,17 @@ export default function CreateRepoModal({
           placeholder="e.g. codekrew-starter"
         />
 
-        <DialogFooter className="gap-2">
+        <div className="flex items-center space-x-2 mt-2">
+          <Switch checked={isPrivate} onCheckedChange={setIsPrivate} />
+          <Label>{isPrivate ? 'Private' : 'Public'}</Label>
+        </div>
+
+        <DialogFooter className="gap-2 mt-4">
           <Button variant="ghost" onClick={onClose}>
             Cancel
           </Button>
           <Button onClick={handleCreate} disabled={loading || !repoName}>
-            {loading ? 'Creating...' : 'Create'}
+            {loading ? 'Creating...' : 'Create & Push'}
           </Button>
         </DialogFooter>
 

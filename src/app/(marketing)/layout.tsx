@@ -6,8 +6,8 @@ import { PropsWithChildren } from 'react'
 
 export default function MarketingLayout({ children }: PropsWithChildren) {
   return (
-    <div className="min-h-screen text-white">
-      <header className="w-full px-6 py-4 border-b">
+    <div className="min-h-screen text-white bg-transparent">
+      <header className="sticky top-0 z-50 w-full px-6 py-4 border-b bg-slate-950 dark:bg-slate-950">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <Link href="/">
             <Image
