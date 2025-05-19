@@ -31,13 +31,13 @@ export async function getUserGitHubToken() {
 
 export async function createGitHubRepo({
   token,
-  name,
+  repoName,
   description = '',
   privateRepo = true,
   org, // optional organization name
 }: {
   token: string
-  name: string
+  repoName: string
   description?: string
   privateRepo?: boolean
   org?: string
@@ -48,7 +48,7 @@ export async function createGitHubRepo({
 
   // Check for existing repo
   try {
-    const existing = await octokit.rest.repos.get({ owner, repo: name })
+    const existing = await octokit.rest.repos.get({ owner, repo: repoName })
     if (existing?.data) {
       console.warn('Repo already exists:', existing.data.html_url)
       return existing.data
@@ -61,12 +61,12 @@ export async function createGitHubRepo({
   const { data: repo } = org
     ? await octokit.rest.repos.createInOrg({
         org,
-        name,
+        repoName,
         description,
         private: privateRepo,
       })
     : await octokit.rest.repos.createForAuthenticatedUser({
-        name,
+        repoName,
         description,
         private: privateRepo,
       })

@@ -16,7 +16,7 @@ export default function SiteSetupPage() {
   const [project, setProject] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [showTemplatePicker, setShowTemplatePicker] = useState(false)
-  //const [showCreateRepo, setShowCreateRepo] = useState(false)
+  const [showCreateRepo, setShowCreateRepo] = useState(false)
   const supabase = createClient()
 
   useEffect(() => {
@@ -77,7 +77,12 @@ export default function SiteSetupPage() {
     } catch (err) {
       console.error('GitHub integration failed:', err)
     }
-    //setShowCreateRepo(false)
+    setShowCreateRepo(false)
+  }
+
+  const handleVercelDeploy = async () => {
+    console.log('Deploying to Vercel...') //stub
+    //TODO: Wire up Vercel API call
   }
 
   if (!mounted) return null
@@ -132,7 +137,7 @@ export default function SiteSetupPage() {
                 Authorize your GitHub account, allow repo access, and push template.
               </p>
               {!project?.github_connected && (
-                <Button variant="secondary" onClick={handleGitHubConnect}>Connect & Create Repo</Button>
+                <Button variant="secondary" onClick={() => setShowCreateRepo(true)}>Connect & Create Repo</Button>
               )}
               {project?.github_connected && (
                 <p className="text-green-400 mt-2">GitHub connected and Repo Created Successfully!</p>
@@ -162,6 +167,13 @@ export default function SiteSetupPage() {
           <p className="text-zinc-400 mb-2">Add Custom Domain</p>
           <Button variant="secondary">Add Custom Domain</Button>
         </div>
+
+        {project?.tempalte_slug && project?.github_connected && project?.vercel_url && (
+          <div className="border border-green-600 bg-green-900 text-white p-4 rounded mt-6">
+            <h2 className="text-x1 font-bold mb-2">Setup Complete!</h2>
+            <p>Your site is ready to go. You can manage or preview it from the project dashboard.</p>
+          </div>
+        )}
       </div>
 
       <TemplatePickerModal
@@ -169,6 +181,12 @@ export default function SiteSetupPage() {
         onOpenChange={setShowTemplatePicker}
         onSelect={handleTemplateSelect}
       />
+
+      <CreateRepoModal
+        open={showCreateRepo} 
+        onOpenChange={setShowCreateRepo}
+        project={project}
+        />
     </div>
   )
 }
