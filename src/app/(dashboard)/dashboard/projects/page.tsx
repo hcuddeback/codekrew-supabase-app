@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/utils/supabase/client'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
+import { Label } from '@/components/ui/label'
 import ProjectCard from '@/components/dashboard/ProjectCard'
 
 export default function ProjectsPage() {
@@ -16,9 +18,10 @@ export default function ProjectsPage() {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('')
   const [tagFilter, setTagFilter] = useState('')
+  const [showArchived, setShowArchived] = useState(false)
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchUserAndProjects = async () => {
       const {
         data: { user },
       } = await supabase.auth.getUser()
@@ -29,16 +32,29 @@ export default function ProjectsPage() {
       }
 
       setUser(user)
-
-      const { data: userProjects } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('user_id', user.id)
-
-      setProjects(userProjects || [])
     }
-    fetchUserData()
+
+    fetchUserAndProjects()
   }, [])
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      if (!user) return
+
+      let query = supabase.from('projects').select('*').eq('user_id', user.id)
+      if (!showArchived) {
+        query = query.eq('archived', false)
+      }
+
+      const { data, error } = await query
+      if (error) {
+        console.error('Error fetching projects:', error)
+      }
+      setProjects(data || [])
+    }
+
+    fetchProjects()
+  }, [showArchived, user])
 
   const filteredProjects = projects.filter((project) => {
     const matchesSearch = search ? project.name?.toLowerCase().includes(search.toLowerCase()) : true
@@ -70,6 +86,10 @@ export default function ProjectsPage() {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="w-40"
           />
+          <div className="flex items-center gap-2 pl-4">
+            <Switch id="show-archived" checked={showArchived} onCheckedChange={setShowArchived} />
+            <Label htmlFor="show-archived">Show Archived</Label>
+          </div>
         </div>
       </div>
 

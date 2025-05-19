@@ -34,7 +34,7 @@ export default function CreateRepoStep({
 
   
   return (
-    <div className="rounded-xl border p-4 bg-white dark:bg-slate-900">
+    <div className="rounded-xl border p-4 bg-white dark:bg-zinc-900">
       <h2 className="text-lg font-semibold mb-2">Step 2: Create a GitHub Repo</h2>
       <p className="text-sm text-muted-foreground mb-4">
         We'll create a new GitHub repository to host your Astro site.

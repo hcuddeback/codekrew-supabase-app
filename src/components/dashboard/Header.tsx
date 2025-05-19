@@ -25,7 +25,7 @@ export default function DashboardHeader() {
   }
 
   return (
-    <header  className="sticky top-0 z-50 w-full flex justify-between items-center px-4 py-3 bg-slate-800/75 dark:bg-slate-900/75 backdrop-blur-md border-b border-slate-700/50 shadow-sm transition-all duration-300">
+    <header  className="sticky top-0 z-50 w-full flex justify-between items-center px-4 py-3 bg-zinc-800/75 dark:bg-zinc-900/75 backdrop-blur-md border-b border-zinc-700/50 shadow-sm transition-all duration-300">
       <div className="flex items-center gap-2">
         <Image src="/codekrew.png" alt="CodeKrew Logo" width={140} height={32} />
       </div>

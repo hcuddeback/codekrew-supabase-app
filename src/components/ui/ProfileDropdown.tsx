@@ -20,19 +20,19 @@ export default function ProfileDropdown() {
           </div>
           <hr className="my-2 border-gray-200 dark:border-gray-700" />
           <ul className="text-sm">
-            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer">Account preferences</li>
-            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer">Feature previews</li>
-            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer">Command menu</li>
+            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">Account preferences</li>
+            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">Feature previews</li>
+            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">Command menu</li>
           </ul>
           <hr className="my-2 border-gray-200 dark:border-gray-700" />
           <div className="px-4 py-2 text-xs text-gray-500">Theme</div>
           <ul className="text-sm">
-            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer">Dark</li>
-            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer">Light</li>
-            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer">System</li>
+            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">Dark</li>
+            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">Light</li>
+            <li className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">System</li>
           </ul>
           <hr className="my-2 border-gray-200 dark:border-gray-700" />
-          <div className="px-4 py-2 text-red-500 text-sm hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer">
+          <div className="px-4 py-2 text-red-500 text-sm hover:bg-gray-100 dark:hover:bg-zinc-700 cursor-pointer">
           <form action={signOutAction}>
               Sign out
           </form>

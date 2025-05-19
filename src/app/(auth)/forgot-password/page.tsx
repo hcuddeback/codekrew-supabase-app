@@ -18,8 +18,8 @@ export default async function ForgotPassword({ searchParams }: { searchParams: P
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md bg-slate-900 p-8 rounded-lg shadow-lg">
+    <div className="min-h-screen bg-zinc-900 text-white flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md bg-zinc-800 p-8 rounded-lg shadow-lg">
         <AuthHeader />
         <form className="flex flex-col items-center w-full max-w-sm mx-auto">
           <h1 className="text-2xl font-medium">Reset Password</h1>

@@ -16,17 +16,14 @@ export default function SiteSetupPage() {
   const [project, setProject] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [showTemplatePicker, setShowTemplatePicker] = useState(false)
-  const [showCreateRepo, setShowCreateRepo] = useState(false)
+  //const [showCreateRepo, setShowCreateRepo] = useState(false)
+  const supabase = createClient()
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
   useEffect(() => {
-    if (!mounted || !id) return
-
-    const supabase = createClient()
-
     const fetchProject = async () => {
       const { data, error } = await supabase
         .from('projects')
@@ -43,10 +40,9 @@ export default function SiteSetupPage() {
     }
 
     if (id) fetchProject()
-  }, [id, mounted])
+  }, [id])
 
   const handleTemplateSelect = async (slug: string) => {
-    const supabase = createClient()
     const { error } = await supabase
       .from('projects')
       .update({ template_slug: slug })
@@ -61,10 +57,27 @@ export default function SiteSetupPage() {
   }
 
   const handleGitHubConnect = async () => {
-    const supabase = createClient()
-    console.log('TODO: Implement GitHub OAuth or integration logic')
-    setProject((prev: any) => ({ ...prev, github_connected: true }))
-    setShowCreateRepo(false)
+    if (!project) return
+    try {
+      const res = await fetch('/api/github/create-repo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          token: project.github_token, // You may want to load this from user session or Supabase
+          name: project.name,
+          description: project.description,
+        }),
+      })
+      const data = await res.json()
+
+      if (!res.ok) throw new Error(data.error || 'GitHub repo creation failed')
+
+      await supabase.from('projects').update({ github_connected: true }).eq('id', project.id)
+      setProject((prev: any) => ({ ...prev, github_connected: true }))
+    } catch (err) {
+      console.error('GitHub integration failed:', err)
+    }
+    //setShowCreateRepo(false)
   }
 
   if (!mounted) return null
@@ -85,7 +98,7 @@ export default function SiteSetupPage() {
   return (
     <div className="max-w-4xl mx-auto p-6 text-white">
       <h1 className="text-3xl font-bold mb-4">Set Up Your Site</h1>
-      <p className="text-slate-300 mb-6">
+      <p className="text-zinc-300 mb-6">
       Project Name: <strong>{project?.name || 'Loading...'}</strong>
       </p>
 
@@ -115,8 +128,12 @@ export default function SiteSetupPage() {
             </div>
             <div>
               <h2 className="text-xl font-semibold mb-2">2. Connect GitHub</h2>
-              <p className="text-zinc-400 mb-2">Authorize your GitHub account, allow repo access, and push template.</p>
-              <Button variant="secondary" onClick={() => setShowCreateRepo(true)}>Connect GitHub</Button>
+              <p className="text-zinc-400 mb-2">
+                Authorize your GitHub account, allow repo access, and push template.
+              </p>
+              {!project?.github_connected && (
+                <Button variant="secondary" onClick={handleGitHubConnect}>Connect & Create Repo</Button>
+              )}
               {project?.github_connected && (
                 <p className="text-green-400 mt-2">GitHub connected and Repo Created Successfully!</p>
               )}
@@ -140,9 +157,9 @@ export default function SiteSetupPage() {
           </div>
         </div>
 
-        <div className="border border-slate-700 p-4 rounded">
+        <div className="border border-zinc-700 p-4 rounded">
           <h2 className="text-xl font-semibold mb-2">4. Configure Domain (optional)</h2>
-          <p className="text-slate-400 mb-2">Add Custom Domain</p>
+          <p className="text-zinc-400 mb-2">Add Custom Domain</p>
           <Button variant="secondary">Add Custom Domain</Button>
         </div>
       </div>
@@ -151,12 +168,6 @@ export default function SiteSetupPage() {
         open={showTemplatePicker}
         onOpenChange={setShowTemplatePicker}
         onSelect={handleTemplateSelect}
-      />
-
-      <CreateRepoModal
-        open={showCreateRepo}
-        onOpenChange={setShowCreateRepo}
-        onSelect={handleGitHubConnect}
       />
     </div>
   )

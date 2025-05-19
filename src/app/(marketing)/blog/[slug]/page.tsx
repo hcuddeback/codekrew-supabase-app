@@ -29,7 +29,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   return (
     <article className="py-20 px-4 max-w-3xl mx-auto text-white">
       <h1 className="text-4xl font-bold mb-6">{post.title}</h1>
-      <p className="text-slate-300 text-lg leading-relaxed">{post.content}</p>
+      <p className="text-zinc-300 text-lg leading-relaxed">{post.content}</p>
     </article>
   )
 }

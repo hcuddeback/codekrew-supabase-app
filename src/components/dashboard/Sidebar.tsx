@@ -29,13 +29,13 @@ export default function Sidebar() {
   
   
   return (
-    <aside className="fixed top-14 left-0 bottom-0 z-20 w-12 pointer-events-none group-hover:pointer-events-auto hover:w-48 transition-all duration-300 bg-slate-800 dark:bg-slate-900 text-gray-800 dark:text-gray-200 overflow-hidden border-r border-slate-200 dark:border-slate-700">
+    <aside className="fixed top-14 left-0 bottom-0 z-20 w-12 pointer-events-none group-hover:pointer-events-auto hover:w-48 transition-all duration-300 bg-zinc-800 dark:bg-zinc-800 text-gray-800 dark:text-gray-200 overflow-hidden border-r border-zinc-200 dark:border-zinc-700">
       <nav className="flex-1 py-3 flex flex-col"> 
         {filteredNav.map(item => (
           <Link
             key={item.label}
             href={item.href}
-            className={`pointer-events-auto flex items-center px-3 py-2 rounded-md transition-colors hover:bg-gray-100 hover:text-orange-500 ${pathname === item.href ? 'bg-slate-800 text-orange' : 'text-slate-400 hover:text-orange-500'}`}
+            className={`pointer-events-auto flex items-center px-3 py-2 rounded-md transition-colors hover:bg-gray-100 hover:text-orange-500 ${pathname === item.href ? 'bg-zinc-800 text-orange' : 'text-zinc-400 hover:text-orange-500'}`}
           >
             <item.icon className="h-6 w-6 flex-shrink-0" /> 
             <span className={`ml-4 whitespace-nowrap transition-opacity duration-200 ${collapsed ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}> 

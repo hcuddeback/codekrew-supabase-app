@@ -36,28 +36,28 @@ export default function ProjectsWidget({ onDeployProject, refreshTrigger }: Proj
   }, [refreshTrigger])
 
   return (
-    <div className="rounded border border-slate-800 p-6">
+    <div className="rounded border border-zinc-800 p-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold">Your Projects</h2>
         <CreateProjectModal />
       </div>
 
       {loading ? (
-        <p className="text-slate-500">Loading...</p>
+        <p className="text-zinc-500">Loading...</p>
       ) : projects.length === 0 ? (
-        <p className="text-slate-400">You don’t have any projects yet.</p>
+        <p className="text-zinc-400">You don’t have any projects yet.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {projects.map((p) => (
-            <div key={p.id} className="bg-slate-800 rounded-lg overflow-hidden shadow-md">
+            <div key={p.id} className="bg-zinc-800 rounded-lg overflow-hidden shadow-md">
               <img
                 src={p.vercel_url ? `https://vercel.com/api/www/screenshot?url=${encodeURIComponent(p.vercel_url)}` : fallbackScreenshot}
                 alt="screenshot"
-                className="w-full h-40 object-cover border-b border-slate-700"
+                className="w-full h-40 object-cover border-b border-zinc-700"
               />
               <div className="p-4">
                 <h3 className="text-white font-semibold text-lg mb-1">{p.name}</h3>
-                <p className="text-slate-400 text-sm line-clamp-2 mb-3">{p.description}</p>
+                <p className="text-zinc-400 text-sm line-clamp-2 mb-3">{p.description}</p>
                 <div className="flex gap-2">
                   <Button size="sm" variant="secondary">Open</Button>
                   <Button

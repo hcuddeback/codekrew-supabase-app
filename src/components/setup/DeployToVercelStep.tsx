@@ -10,7 +10,7 @@ export default function DeployToVercelStep({ repoUrl }: { repoUrl: string }) {
   }
 
   return (
-    <div className="rounded-xl border p-4 bg-white dark:bg-slate-900">
+    <div className="rounded-xl border p-4 bg-white dark:bg-zinc-900">
       <h2 className="text-lg font-semibold mb-2">Step 3: Deploy to Vercel</h2>
       <p className="text-sm text-muted-foreground mb-4">
         One-click deploy your site using Vercel.

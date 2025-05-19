@@ -428,6 +428,7 @@ export type Database = {
       }
       projects: {
         Row: {
+          archived: boolean | null
           created_at: string | null
           description: string | null
           id: string
@@ -439,6 +440,7 @@ export type Database = {
           vercel_url: string | null
         }
         Insert: {
+          archived?: boolean | null
           created_at?: string | null
           description?: string | null
           id?: string
@@ -450,6 +452,7 @@ export type Database = {
           vercel_url?: string | null
         }
         Update: {
+          archived?: boolean | null
           created_at?: string | null
           description?: string | null
           id?: string

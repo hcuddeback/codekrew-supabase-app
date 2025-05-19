@@ -1,6 +1,7 @@
-'use client'
+// DashboardProjects.tsx
+// This component will display only active (non-archived) projects
 
-// app/dashboard/page.tsx
+'use client'
 
 import { createClient } from "@/lib/utils/supabase/client";
 import CreateProjectModal from '@/components/projects/CreateProjectModal'
@@ -10,7 +11,7 @@ import { TemplatePickerModal } from '@/components/templates/TemplatePickerModal'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import ProjectCard from '@/components/dashboard/ProjectCard'
+import DashboardCard from '@/components/dashboard/DashboardCard'
 import ScoutPanel from '@/components/scout/ScoutPanel'
 import type { User } from '@supabase/supabase-js'
 import { motion } from 'framer-motion'
@@ -42,7 +43,7 @@ export default function DashboardPage() {
       setUser(user)
 
       const [{ data: userProjects }, { data: userTasks }, { data: userNotes }] = await Promise.all([
-        supabase.from('projects').select('*').eq('user_id', user.id),
+        supabase.from('projects').select('*').eq('user_id', user.id).eq('archived', false),
         supabase.from('tasks').select('*').eq('user_id', user.id),
         supabase.from('notes').select('*').eq('user_id', user.id)
       ])
@@ -65,10 +66,10 @@ export default function DashboardPage() {
 
   const topProjects = [...projects]
     .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-    .slice(0, 3)
+    .slice(0, 4)
 
   return (
-    <div className="flex flex-col space-y-6 p-6">
+    <div className="flex flex-col space-y-6">
       {/* Hero Section */}
       <div className="flex justify-between items-center">
         <div>
@@ -82,17 +83,16 @@ export default function DashboardPage() {
 
       {/* Project Cards */}
       <section>
-        <Card>
+        <Card className="shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition-all">
           <CardHeader className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             <div className="flex-1">
               <CardTitle className="text-xl">Your Projects</CardTitle>
             </div>
             <div className="flex items-center gap-2">
-              <CreateProjectModal>
-              </CreateProjectModal>
+              <CreateProjectModal />
             </div>
           </CardHeader>
-          <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4 px-2 pb-2">
+          <CardContent className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-2 pb-2">
             {topProjects.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -100,14 +100,13 @@ export default function DashboardPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                <ProjectCard
-                  project={{ ...project, thumbnailSize: 'xs', compact: true }}
-                  showPreview
+                <DashboardCard
+                  project={project}
                   onClick={() => router.push(`/dashboard/projects/${project.id}`)}
                 />
               </motion.div>
             ))}
-            {projects.length > 3 && (
+            {projects.length > 4 && (
               <motion.div
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -149,7 +148,7 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
           >
-            <Card className="col-span-1">
+            <Card className="col-span-1 shadow-md hover:shadow-xl transform hover:-translate-y-1 transition-all">
               <CardHeader><CardTitle>{card.title}</CardTitle></CardHeader>
               <CardContent>
                 <p>{card.content}</p>

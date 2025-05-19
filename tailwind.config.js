@@ -30,7 +30,7 @@ module.exports = {
         },
         navy: '#1E293B',
         dark_navy: '#0F172A', 
-        slate: defaultTheme.colors.slate,
+        zinc: defaultTheme.colors.zinc,
         border: '#E5E7EB',
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

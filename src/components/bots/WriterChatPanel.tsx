@@ -19,13 +19,13 @@ export default function WriterChatPanel() {
   }
 
   return (
-    <div className="p-4 border rounded shadow bg-white dark:bg-slate-800">
+    <div className="p-4 border rounded shadow bg-white dark:bg-zinc-800">
       <h2 className="text-lg font-bold mb-2">WriterBot Assistant</h2>
       <textarea
         value={prompt}
         onChange={(e) => setPrompt(e.target.value)}
         placeholder="Ask WriterBot to summarize notes, write a user story, etc."
-        className="w-full p-2 rounded border bg-white dark:bg-slate-700 dark:text-white"
+        className="w-full p-2 rounded border bg-white dark:bg-zinc-700 dark:text-white"
         rows={3}
       />
       <button
@@ -35,7 +35,7 @@ export default function WriterChatPanel() {
         {loading ? 'Thinking...' : 'Generate'}
       </button>
       {response && (
-        <pre className="mt-4 bg-gray-100 dark:bg-slate-700 p-2 rounded text-sm whitespace-pre-wrap">
+        <pre className="mt-4 bg-gray-100 dark:bg-zinc-700 p-2 rounded text-sm whitespace-pre-wrap">
           {response}
         </pre>
       )}

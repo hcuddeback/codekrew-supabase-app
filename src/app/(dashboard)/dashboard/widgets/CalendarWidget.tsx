@@ -39,7 +39,7 @@ export default function CalendarWidget() {
   
 
   return (
-    <div className="p-4 border rounded shadow bg-white dark:bg-slate-800">
+    <div className="p-4 border rounded shadow bg-white dark:bg-zinc-800">
       <h2 className="widget-header font-semibold text-lg mb-4">Calendar</h2>
 
       <div className="mb-4">

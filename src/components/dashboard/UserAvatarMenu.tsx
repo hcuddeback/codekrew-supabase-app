@@ -57,32 +57,32 @@ export default function UserAvatarMenu() {
           <AvatarFallback>{user?.full_name?.[0] ?? 'U'}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="bg-slate-900 border border-slate-700 w-56">
+      <DropdownMenuContent align="end" className="bg-zinc-900 border border-zinc-700 w-56">
       <DropdownMenuItem disabled>
           {user?.full_name || user?.email || 'Unknown User'}
         </DropdownMenuItem>
         <DropdownMenuItem
           onClick={() => router.push('/dashboard/account')}
-          className="gap-2 text-white hover:bg-slate-800"
+          className="gap-2 text-white hover:bg-zinc-800"
         >
           <User size={16} /> Account Preferences
         </DropdownMenuItem>
         
-        <div className="border-t border-slate-700 my-1" />
-        <div className="px-3 py-1.5 text-xs text-slate-500">Theme</div>
-        <DropdownMenuItem onClick={() => setTheme('light')} className="text-white hover:bg-slate-800 pl-8">
+        <div className="border-t border-zinc-700 my-1" />
+        <div className="px-3 py-1.5 text-xs text-zinc-500">Theme</div>
+        <DropdownMenuItem onClick={() => setTheme('light')} className="text-white hover:bg-zinc-800 pl-8">
           Light {theme === 'light' && '✓'}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('dark')} className="text-white hover:bg-slate-800 pl-8">
+        <DropdownMenuItem onClick={() => setTheme('dark')} className="text-white hover:bg-zinc-800 pl-8">
           Dark {theme === 'dark' && '✓'}
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme('system')} className="text-white hover:bg-slate-800 pl-8">
+        <DropdownMenuItem onClick={() => setTheme('system')} className="text-white hover:bg-zinc-800 pl-8">
           System {theme === 'system' && '✓'}
         </DropdownMenuItem>
-        <div className="border-t border-slate-700 my-1" />
+        <div className="border-t border-zinc-700 my-1" />
         <DropdownMenuItem
           onClick={handleSignOut}
-          className="gap-2 text-red-500 hover:bg-slate-800 hover:text-red-400"
+          className="gap-2 text-red-500 hover:bg-zinc-800 hover:text-red-400"
         >
           <LogOut size={16} /> Sign out
         </DropdownMenuItem>

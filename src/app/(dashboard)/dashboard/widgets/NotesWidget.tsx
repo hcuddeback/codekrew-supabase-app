@@ -49,7 +49,7 @@ export default function NotesWidget() {
   }
 
   return (
-    <div className="p-4 border rounded shadow bg-white dark:bg-slate-800">
+    <div className="p-4 border rounded shadow bg-white dark:bg-zinc-800">
       <h2 className="widget-header font-semibold text-lg mb-4">Notes</h2>
 
       <div className="flex gap-2 mb-4">
@@ -58,7 +58,7 @@ export default function NotesWidget() {
           placeholder="New note title..."
           value={newTitle}
           onChange={e => setNewTitle(e.target.value)}
-          className="flex-1 px-3 py-2 border rounded bg-white dark:bg-slate-700 dark:text-white"
+          className="flex-1 px-3 py-2 border rounded bg-white dark:bg-zinc-700 dark:text-white"
         />
         <Button
           onClick={handleCreate}
@@ -77,8 +77,8 @@ export default function NotesWidget() {
                 onClick={() => setActiveNote(note)}
                 className={`cursor-pointer p-2 rounded ${
                   activeNote?.id === note.id
-                    ? 'bg-indigo-100 dark:bg-slate-700'
-                    : 'hover:bg-gray-100 dark:hover:bg-slate-700'
+                    ? 'bg-indigo-100 dark:bg-zinc-700'
+                    : 'hover:bg-gray-100 dark:hover:bg-zinc-700'
                 }`}
               >
                 {note.title}
@@ -102,7 +102,7 @@ export default function NotesWidget() {
               value={activeNote.content || ''}
               onChange={e => handleUpdate(activeNote.id, e.target.value)}
               placeholder="Write your note here..."
-              className="w-full h-48 p-2 rounded border bg-white dark:bg-slate-700 dark:text-white"
+              className="w-full h-48 p-2 rounded border bg-white dark:bg-zinc-700 dark:text-white"
             />
           </div>
         )}

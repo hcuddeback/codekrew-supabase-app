@@ -1,29 +1,24 @@
-// /src/app/api/github/create-repo/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+// app/api/github/create-repo/route.ts
+import { NextResponse } from 'next/server'
+import { createGitHubRepo } from '@/lib/actions/github'
 
-export async function POST(req: NextRequest) {
-  const { accessToken, repoName } = await req.json()
+export async function POST(req: Request) {
+  const { token, name, description } = await req.json()
 
-  const response = await fetch('https://api.github.com/user/repos', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-      Accept: 'application/vnd.github+json',
-    },
-    body: JSON.stringify({
-      name: repoName,
-      private: false,
-      auto_init: true,
-      description: '🚀 Created with CodeKrew GitBot',
-    }),
-  })
-
-  const data = await response.json()
-
-  if (!response.ok) {
-    return NextResponse.json({ error: data }, { status: response.status })
+  if (!token || !name) {
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
   }
 
-  return NextResponse.json({ success: true, repo: data })
+  try {
+    const repo = await createGitHubRepo({
+      token,
+      name,
+      description,
+      privateRepo: true // ✅ Recommended: Create repo as private by default
+    })
+
+    return NextResponse.json(repo)
+  } catch (err: any) {
+    return NextResponse.json({ error: err.message }, { status: 500 })
+  }
 }

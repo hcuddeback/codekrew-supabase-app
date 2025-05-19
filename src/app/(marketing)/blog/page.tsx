@@ -26,9 +26,9 @@ export default function BlogIndexPage() {
       <h1 className="text-4xl font-bold text-center mb-12">Blog</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {blogPosts.map((post) => (
-          <div key={post.slug} className="bg-slate-800 p-6 rounded shadow">
+          <div key={post.slug} className="bg-zinc-800 p-6 rounded shadow">
             <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-            <p className="text-slate-400 text-sm mb-4">{post.excerpt}</p>
+            <p className="text-zinc-400 text-sm mb-4">{post.excerpt}</p>
             <Link
               href={`/blog/${post.slug}`}
               className="text-orange-500 hover:underline text-sm font-medium"

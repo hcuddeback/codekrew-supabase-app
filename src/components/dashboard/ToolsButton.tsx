@@ -11,7 +11,7 @@ export default function ToolsButton() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="absolute top-4 right-4 z-10 p-2 bg-white dark:bg-slate-800 rounded-full shadow hover:bg-slate-100 dark:hover:bg-slate-700"
+        className="absolute top-4 right-4 z-10 p-2 bg-white dark:bg-zinc-800 rounded-full shadow hover:bg-zinc-100 dark:hover:bg-zinc-700"
         aria-label="Customize Widgets"
       >
         <Settings2 className="w-5 h-5" />

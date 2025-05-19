@@ -10,7 +10,7 @@ export function WidgetSettingsModal({ open, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-20 flex items-center justify-center bg-black/40">
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-lg shadow-lg w-[90%] max-w-md">
+      <div className="bg-white dark:bg-zinc-900 p-6 rounded-lg shadow-lg w-[90%] max-w-md">
         <h2 className="text-lg font-semibold mb-4">Customize Your Dashboard</h2>
         <div className="space-y-3">
           <label className="flex items-center justify-between">
@@ -27,7 +27,7 @@ export function WidgetSettingsModal({ open, onClose }: Props) {
           </label>
         </div>
         <div className="flex justify-end mt-6 space-x-2">
-          <button className="px-4 py-2 text-sm bg-gray-100 rounded hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600" onClick={onClose}>
+          <button className="px-4 py-2 text-sm bg-gray-100 rounded hover:bg-gray-200 dark:bg-zinc-700 dark:hover:bg-zinc-600" onClick={onClose}>
             Close
           </button>
         </div>

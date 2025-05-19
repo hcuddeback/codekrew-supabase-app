@@ -67,13 +67,13 @@ export function TemplatePickerModal({ open, onOpenChange, onSelect }: TemplatePi
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-slate-950 text-white border-slate-800 max-w-3xl">
+      <DialogContent className="bg-zinc-900 text-white border-zinc-800 max-w-3xl">
         <DialogHeader>
           <DialogTitle>Select an Astro Template</DialogTitle>
         </DialogHeader>
 
         {loading ? (
-          <div className="text-center py-6 text-sm text-slate-400">Loading templates...</div>
+          <div className="text-center py-6 text-sm text-zinc-400">Loading templates...</div>
         ) : error ? (
           <div className="text-center py-6 text-red-500">{error}</div>
         ) : (
@@ -84,7 +84,7 @@ export function TemplatePickerModal({ open, onOpenChange, onSelect }: TemplatePi
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            className="border border-slate-800 rounded-lg overflow-hidden bg-slate-900 hover:border-slate-700 transition-colors relative"
+            className="border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900 hover:border-zinc-700 transition-colors relative"
           >
             <img
               src={template.image_url || "/templates/coming-soon-screenshot.png"}
@@ -93,10 +93,10 @@ export function TemplatePickerModal({ open, onOpenChange, onSelect }: TemplatePi
               onError={(e) => (e.currentTarget.src = "/templates/coming-soon-screenshot.png")}
             />
               <Badge className="absolute top-2 left-2 bg-indigo-600">AI-ready</Badge>
-              <div className="p-4 flex flex-col h-full border border-slate-800 rounded-lg overflow-hidden bg-slate-900 hover:border-slate-700 transition-colors relative">
+              <div className="p-4 flex flex-col h-full border border-zinc-800 rounded-lg overflow-hidden bg-zinc-900 hover:border-zinc-700 transition-colors relative">
                 <div>
                   <h3 className="text-lg font-semibold mb-1">{template.name}</h3>
-                  <p className="text-sm text-slate-400 mb-4">{template.description}</p>
+                  <p className="text-sm text-zinc-400 mb-4">{template.description}</p>
                 </div>
                 <Button
                   onClick={() => onSelect(template.slug)}
